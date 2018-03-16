@@ -39,7 +39,27 @@
     volume_size_gb: 10
     api_token: "{{ cloud_cloudscale_api_key }}"
     user_data: |
-      "{{ cloud_cloud_init }}"
+      #cloud-config
+      users:
+        - name: ansible
+          passwd: "{{ lookup('password') }}"
+          shell: /bin/bash
+          primary-group: ansible
+          sudo: ALL=(ALL) NOPASSWD:ALL
+          groups: sudo
+          ssh-authorized-keys:
+            - "{{ cloud_ssh_public_key_ansible }}"
+      package_update: true
+      package_upgrade: true
+      packages:
+        - python2.7
+        - python-pip
+      network-interfaces: |
+        iface ens4 inet static
+          address "{{ ansible_host }}"
+          netmask 255.255.255.0
+          dns-nameserver 8.8.8.8
+          dns-search "{{ cloud_dns_search }}"
       runcmd:
         - "ln -sf /usr/bin/python2.7 /usr/bin/python"
       package_reboot_if_required: true
