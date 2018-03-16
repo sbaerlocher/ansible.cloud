@@ -1,2 +1,5 @@
 ---
 # defaults file for sbaerlocher.cloud
+
+cloud_cloudscale_api_key: "{{  lookup('env','cloudscale_api_tokens') }}"
+cloud_dns_search: "{{ dns-search }}"

@@ -1,36 +1,11 @@
 ---
 # tasks file for sbaerlocher.cloud
 
-- name: add OS specific variables
-  include_vars: "{{ loop_vars }}"
-  with_first_found:
-    - files:
-        - "{{ ansible_distribution }}-{{ ansible_distribution_version }}.yml"
-        - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
-        - "{{ ansible_distribution }}.yml"
-        - "{{ ansible_os_family }}.yml"
-        - "defaults.yml"
-      paths:
-        - "vars"
+- name: include all cloud providers
+  include_tasks: "{{ loop_system }}"
+  with_fileglob:
+    - "providers/*"
   loop_control:
-    loop_var: loop_vars
+    loop_var: loop_providers
   tags:
     - configuration
-    - packages
-
-- name: include distribution tasks
-  include_tasks: "{{ loop_distribution }}"
-  with_first_found:
-    - files:
-        - "{{ ansible_distribution }}-{{ ansible_distribution_version }}.yml"
-        - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
-        - "{{ ansible_distribution }}.yml"
-        - "{{ ansible_os_family }}.yml"
-        - "defaults.yml"
-      paths:
-        - "distribution"
-  loop_control:
-    loop_var: loop_distribution
-  tags:
-    - configuration
-    - packages

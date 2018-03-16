@@ -1,0 +1,70 @@
+---
+# tasks file for sbaerlocher.cloud
+
+- name: show all cloudscale server
+  uri:
+    url: https://api.cloudscale.ch/v1/servers
+    method: GET
+    headers:
+      Authorization: "Bearer {{ cloud_cloudscale_api_key }}"
+      Content-Type: "application/json"
+  register: cloudscale_server_list
+
+- name: init empty vars
+  set_fact:
+    cloud_cloudscale_server_list: "[]"
+    cloud_cloudscale_new_server: "[]"
+
+- name: all cloudscale server
+  set_fact:
+    cloud_cloudscale_server_list: "{{ cloud_cloudscale_server_list }} + [ '{{ item.name }}' ]"
+  with_items:
+    - "{{ cloudscale_server_list.json }}"
+
+- name: all new server
+  set_fact:
+    cloud_cloudscale_new_server: "{{ cloud_cloudscale_new_server }} + [ '{{ item }}' ]"
+  with_items:
+    - "{{ groups['all'] }}"
+  when: item not in cloud_cloudscale_server_list
+
+- name: start cloudscale server
+  cloudscale_server:
+    name: "{{ item }}"
+    image: ubuntu-16.04
+    flavor: flex-2
+    ssh_keys: "{{ cloud_ssh_public_key_root }}"
+    use_public_network: true
+    use_private_network: true
+    volume_size_gb: 10
+    api_token: "{{ cloud_cloudscale_api_key }}"
+    user_data: |
+      #cloud-config
+      users:
+        - name: ansible
+          passwd: "{{ default(lookup('password')) }}"
+          shell: /bin/bash
+          primary-group: ansible
+          sudo: ALL=(ALL) NOPASSWD:ALL
+          groups: sudo
+          ssh-authorized-keys:
+            - "{{ cloud_ssh_public_key_ansible }}"
+      package_update: true
+      package_upgrade: true
+      packages:
+        - python2.7
+        - python-pip
+      network-interfaces: |
+        iface ens4 inet static
+          address "{{ ansible_host }}"
+          netmask 255.255.255.0
+          dns-nameserver 8.8.8.8
+          dns-search {{ cloud_dns_search }}
+          {% if cloud_route is defined %}
+          "{{ cloud_route }}"
+          {% endif %}
+      runcmd:
+        - "ln -sf /usr/bin/python2.7 /usr/bin/python"
+      package_reboot_if_required: true
+  with_items:
+    - "{{ cloud_cloudscale_new_server }}"
