@@ -59,11 +59,12 @@
         - content: |
             auto ens4
             iface ens4 inet static
-              address {{ hostvars[item]['ansible_host'] }}
+              address "{{ hostvars[item]['ansible_host'] }}"
               netmask 255.255.255.0
               dns-nameserver 8.8.8.8
-              dns-search {{ cloud_dns_search }}
-              {{ cloud_route }}
+              dns-search "{{ cloud_dns_search }}"
+              up route add -net 10.16.0.0 netmask 255.240.0.0 gw 172.16.1.1
+              up route add -net 172.16.0.0 netmask 255.240.0.0 gw 172.16.1.1
           path: /etc/network/interfaces.d/ens4.cfg
           permissions: 0644
       runcmd:
