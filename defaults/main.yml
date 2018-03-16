@@ -5,7 +5,6 @@ cloud_cloudscale_api_key: "{{  lookup('env','cloudscale_api_tokens') }}"
 cloud_dns_search: "{{ dns-search | default('localhost') }}"
 
 cloud_cloud_init: |
-  #cloud-config
   users:
     - name: ansible
       passwd: "{{ default(lookup('password')) }}"
