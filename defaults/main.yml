@@ -20,12 +20,12 @@ cloud_cloud_init: |
   packages:
     - python2.7
     - python-pip
-  network-interfaces: |
-    "{{ cloud_network_interfaces }}"
+#  network-interfaces: |
+#    "{{ cloud_network_interfaces }}"'
 
-cloud_network_interfaces: |
-    iface ens4 inet static
-      address "{{ ansible_host }}"
-      netmask 255.255.255.0
-      dns-nameserver 8.8.8.8
-      dns-search "{{ cloud_dns_search }}"
+#cloud_network_interfaces: |
+#  iface ens4 inet static
+#    address "{{ ansible_host }}"
+#    netmask 255.255.255.0
+#    dns-nameserver 8.8.8.8
+#    dns-search "{{ cloud_dns_search }}"
