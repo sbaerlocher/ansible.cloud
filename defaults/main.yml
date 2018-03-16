@@ -25,7 +25,7 @@ cloud_cloud_init: |
       address "{{ ansible_host }}"
       netmask 255.255.255.0
       dns-nameserver 8.8.8.8
-      dns-search {{ cloud_dns_search }}
+      dns-search "{{ cloud_dns_search }}"
       {% if cloud_route is defined %}
       "{{ cloud_route }}"
       {% endif %}
