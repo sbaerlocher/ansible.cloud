@@ -2,7 +2,7 @@
 # tasks file for sbaerlocher.cloud
 
 - name: include all cloud providers
-  include_tasks: "{{ loop_system }}"
+  include_tasks: "{{ loop_providers }}"
   with_fileglob:
     - "providers/*"
   loop_control:
