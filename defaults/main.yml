@@ -1,5 +1,11 @@
 ---
 # defaults file for sbaerlocher.cloud
 
-cloud_cloudscale_api_key: "{{ lookup('env','cloudscale_api_tokens') }}"
 cloud_dns_search: localhost
+
+cloud_cloudscale_api_key: "{{ lookup('env','cloudscale_api_tokens') }}"
+cloud_cloudscale_image: ubuntu-16.04
+cloud_cloudscale_flavor: flex-2
+cloud_cloudscale_use_public_network: true
+cloud_cloudscale_use_private_network: false
+cloud_cloudscale_volume_size_gb: 10

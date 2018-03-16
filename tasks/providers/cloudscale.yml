@@ -32,12 +32,12 @@
 - name: start cloudscale server
   cloudscale_server:
     name: "{{ item }}"
-    image: ubuntu-16.04
-    flavor: flex-2
+    image: "{{ cloud_image }}"
+    flavor: "{{ cloud_cloudscale_flavor }}"
     ssh_keys: "{{ cloud_ssh_public_key_root }}"
-    use_public_network: true
-    use_private_network: true
-    volume_size_gb: 10
+    use_public_network: "{{ cloud_cloudscale_use_public_network }}"
+    use_private_network: "{{ cloud_cloudscale_use_private_network }}"
+    volume_size_gb: "{{ cloud_cloudscale_volume_size_gb }}"
     api_token: "{{ cloud_cloudscale_api_key }}"
     user_data: |
       #cloud-config
