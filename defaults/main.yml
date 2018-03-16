@@ -7,7 +7,7 @@ cloud_dns_search: localhost
 cloud_cloud_init: |
   users:
     - name: ansible
-      passwd: "{{ default(lookup('password')) }}"
+      passwd: "{{ lookup('password') }}"
       shell: /bin/bash
       primary-group: ansible
       sudo: ALL=(ALL) NOPASSWD:ALL
