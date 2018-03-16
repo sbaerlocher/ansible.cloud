@@ -54,12 +54,16 @@
       packages:
         - python2.7
         - python-pip
-      network-interfaces: |
-        iface ens4 inet static
-          address "{{ ansible_host }}"
-          netmask 255.255.255.0
-          dns-nameserver 8.8.8.8
-          dns-search "{{ cloud_dns_search }}"
+      write_files:                                
+        - content: |                              
+            auto ens4                             
+            iface ens4 inet static
+              address "{{ ansible_host }}"
+              netmask 255.255.255.0
+              dns-nameserver 8.8.8.8
+              dns-search "{{ cloud_dns_search }}"
+          path: /etc/network/interfaces.d/ens4.cfg
+          permissions: 0644    
       runcmd:
         - "ln -sf /usr/bin/python2.7 /usr/bin/python"
       package_reboot_if_required: true
