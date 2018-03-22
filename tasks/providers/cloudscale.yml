@@ -1,6 +1,5 @@
 ---
 # tasks file for sbaerlocher.cloud
-
 - name: show all cloudscale server
   uri:
     url: https://api.cloudscale.ch/v1/servers
@@ -32,7 +31,7 @@
 - name: start cloudscale server
   cloudscale_server:
     name: "{{ item }}"
-    image: "{{ cloud_image }}"
+    image: "{{ cloud_cloudscale_image }}"
     flavor: "{{ cloud_cloudscale_flavor }}"
     ssh_keys: "{{ cloud_ssh_public_key_root }}"
     use_public_network: "{{ cloud_cloudscale_use_public_network }}"
@@ -55,6 +54,11 @@
       packages:
         - python2.7
         - python-pip
+      manage_resolv_conf: true
+      resolv_conf:
+        nameservers: "{{ cloud_nameserver }}"
+        searchdomains: "{{ cloud_searchdomains }}"
+        domain: "{{ cloud_dns_search }}"
       write_files:
         - content: |
             auto ens4

@@ -1,5 +1,13 @@
 ---
 # defaults file for sbaerlocher.cloud
+cloud_nameserver:
+  - 8.8.8.8
+  - 8.8.4.4
+
+cloud_searchdomains:
+  - localhost
+
+cloud_domain: localhost
 
 cloud_dns_search: localhost
 
