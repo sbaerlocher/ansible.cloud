@@ -28,15 +28,16 @@
     - "{{ groups['all'] }}"
   when: item not in cloud_cloudscale_server_list
 
+- name: create cloud-init file
 - name: start cloudscale server
   cloudscale_server:
     name: "{{ item }}"
-    image: "{{ cloud_cloudscale_image }}"
-    flavor: "{{ cloud_cloudscale_flavor }}"
-    ssh_keys: "{{ cloud_ssh_public_key_root }}"
-    use_public_network: "{{ cloud_cloudscale_use_public_network }}"
-    use_private_network: "{{ cloud_cloudscale_use_private_network }}"
-    volume_size_gb: "{{ cloud_cloudscale_volume_size_gb }}"
+    image: "{{ hostvars[item]['cloud_cloudscale_image'] | default(cloud_cloudscale_image) }}"
+    flavor: "{{ hostvars[item]['cloud_cloudscale_flavor'] | default(cloud_cloudscale_flavor) }}"
+    ssh_keys: "{{ hostvars[item]['cloud_ssh_public_key_root'] | default(cloud_ssh_public_key_root) }}"
+    use_public_network: "{{ hostvars[item]['cloud_cloudscale_use_public_network'] | default(cloud_cloudscale_use_public_network) }}"
+    use_private_network: "{{ hostvars[item]['cloud_cloudscale_use_private_network'] | default(cloud_cloudscale_use_private_network) }}"
+    volume_size_gb: "{{ hostvars[item]['cloud_cloudscale_volume_size_gb'] | default(cloud_cloudscale_volume_size_gb) }}"
     api_token: "{{ cloud_cloudscale_api_key }}"
     user_data: |
       #cloud-config
