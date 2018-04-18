@@ -34,6 +34,7 @@
     image: "{{ hostvars[item]['cloud_cloudscale_image'] | default(cloud_cloudscale_image) }}"
     flavor: "{{ hostvars[item]['cloud_cloudscale_flavor'] | default(cloud_cloudscale_flavor) }}"
     ssh_keys: "{{ hostvars[item]['cloud_ssh_public_key_root'] | default(cloud_ssh_public_key_root) }}"
+    use_ipv6: "{{ hostvars[item]['cloud_cloudscale_use_ipv6'] | default(cloud_cloudscale_use_ipv6) }}"
     use_public_network: "{{ hostvars[item]['cloud_cloudscale_use_public_network'] | default(cloud_cloudscale_use_public_network) }}"
     use_private_network: "{{ hostvars[item]['cloud_cloudscale_use_private_network'] | default(cloud_cloudscale_use_private_network) }}"
     volume_size_gb: "{{ hostvars[item]['cloud_cloudscale_volume_size_gb'] | default(cloud_cloudscale_volume_size_gb) }}"

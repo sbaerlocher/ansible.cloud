@@ -17,3 +17,4 @@ cloud_cloudscale_flavor: flex-2
 cloud_cloudscale_use_public_network: true
 cloud_cloudscale_use_private_network: false
 cloud_cloudscale_volume_size_gb: 10
+cloud_cloudscale_use_ipv6: false
