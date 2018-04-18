@@ -28,7 +28,6 @@
     - "{{ groups['all'] }}"
   when: item not in cloud_cloudscale_server_list
 
-- name: create cloud-init file
 - name: start cloudscale server
   cloudscale_server:
     name: "{{ item }}"
